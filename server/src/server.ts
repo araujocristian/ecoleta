@@ -1,8 +1,10 @@
 import express from 'express';
+import routes from './routes';
 
 const app = express();
 
 app.use(express.json());
+app.use(routes);
 
 // Rota:  Endereço completo da requisição
 // Recurso: Qual entidade estamos acessando do sistema
@@ -22,31 +24,8 @@ app.use(express.json());
 // Query Params: Parâmetros que vem na própria rota geralmente opcionais para filtros, paginação
 // Request Body: Parâmetros no corpo da requisição para criar/atualizar informações
 
-const users = ["Cristian", "Joao", "Pedro"] 
+// Banco de dados
+// SELECT = FROM users WHERE name = 'Cristian"
+// knex('users').where('name', 'Diego').select('*')
 
-app.get('/users', (request, response) => {
-  const search = String(request.query.search);
-
-  const filteredUsers = search ? users.filter(user => user.includes(search)) : users;
-  
-  return response.json(filteredUsers);
-})
-
-app.get('/users/:id', (request, response) => {
-  const id  = Number(request.params.id);
-
-  const user = users[id];
-  return response.json(user);
-})
-
-app.post("/users", (request, response)=>{
-  const data = request.body;
-
-  const user = {
-    name: data.name,
-    email: data.email,
-  };
-
-  return response.json(user);
-})
-app.listen(3333)
+app.listen(3333);
